@@ -1,0 +1,39 @@
+@startuml
+!theme materia
+skinparam BoxFontStyle bold
+skinparam BoxFontSize 40
+skinparam BoxFontColor black
+
+skinparam ParticipantFontColor black
+
+box "e2e_test"
+participant test_getTnbList #FFD43B
+end box
+
+box "java-wrapper"
+participant CustomServerHandler #F89820
+end box
+
+box "perlapp-ejb"
+participant WrappedMethods #F89820
+end box
+
+box "database"
+skinparam ParticipantFontColor black
+participant Database
+end box
+
+test_getTnbList -[#FFD43B]> CustomServerHandler : POST Request
+CustomServerHandler -[#F89820]> WrappedMethods : Method invocation via reflection
+WrappedMethods -[#F89820]> Database : getTnbs
+Database -> WrappedMethods : Tnbs
+WrappedMethods -[#F89820]> CustomServerHandler : Response
+CustomServerHandler -[#F89820]> test_getTnbList : POST Response
+
+
+legend right
+  <b>Legende:</b>
+  <color:#FFD43B>Python</color> | <color:#F89820>Java</color>
+end legend
+
+@enduml

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.sippy.wrapper.parent</groupId>
+        <artifactId>wrapper-parent</artifactId>
+        <version>1.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>java-ear</artifactId>
+
+    <packaging>ear</packaging>
+
+    <name>java-ear</name>
+
+    <dependencies>
+        <!-- wars -->
+        <dependency>
+            <groupId>com.sippy.wrapper.parent</groupId>
+            <artifactId>java-war</artifactId>
+            <version>1.1-SNAPSHOT</version>
+            <type>war</type>
+        </dependency>
+        <!-- ejbs -->
+        <dependency>
+            <groupId>com.sippy.wrapper.parent</groupId>
+            <artifactId>java-wrapper</artifactId>
+            <version>1.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sippy.wrapper.parent</groupId>
+            <artifactId>perlapp-ejb</artifactId>
+            <version>1.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- third party libs -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>java-service</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>21</source>
+                    <target>21</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.coveo</groupId>
+                <artifactId>fmt-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>2.10.1</version>
+                <configuration>
+                    <defaultLibBundleDir>/lib</defaultLibBundleDir>
+                    <skinnyWars>true</skinnyWars>
+                    <modules>
+                        <webModule>
+                            <groupId>com.sippy.wrapper.parent</groupId>
+                            <artifactId>java-war</artifactId>
+                            <bundleFileName>java-war.war</bundleFileName>
+                            <contextRoot>/java-war</contextRoot>
+                        </webModule>
+                        <jarModule>
+                            <groupId>com.sippy.wrapper.parent</groupId>
+                            <artifactId>java-wrapper</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                            <bundleDir>/</bundleDir>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>com.sippy.wrapper.parent</groupId>
+                            <artifactId>perlapp-ejb</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                            <bundleDir>/</bundleDir>
+                        </jarModule>
+                    </modules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

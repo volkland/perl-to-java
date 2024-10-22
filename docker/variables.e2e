@@ -1,0 +1,6 @@
+# entrypoint.sh
+export WILDFLY_MEMORY_SETTINGS="-Xms128m -Xmx1024m"
+export LEGACY_DAEMON_EJB_SERVICE_HOST=not-in-bb-setup-yet
+
+# mgmt-users.properties
+export WILDFLY_MANAGEMENT_USER_PASSWORD_MD5SUM=dummy

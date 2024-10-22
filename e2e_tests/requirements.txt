@@ -1,0 +1,9 @@
+aiohttp~=3.9.5
+pymysql
+SQLAlchemy~=1.4.45
+pymemcache~=4.0.0
+zeep~=4.2.1
+pre-commit
+vulture
+prometheus-client~=0.18.0
+sqlacodegen

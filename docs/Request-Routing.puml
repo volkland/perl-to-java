@@ -1,0 +1,41 @@
+@startuml
+!theme materia
+
+skinparam SwimlaneBorderColor #2E86C1
+
+|User|
+start
+  :Send POST Request;
+
+|java-wrapper|
+  :Receive Request;
+if (Request URI ends on "/jsonrpc"?) then (no)
+  :Return 404 Response to User;
+  |User|
+  :Receive 404 Response;
+  stop
+else (yes)
+  |java-wrapper|
+  :Handle JSON-RPC Endpoint;
+endif
+
+if (Java Method exists?) then (yes)
+  :Invoke Java Application Method;
+  |perlapp-ejb|
+  :Process in Java;
+
+else (no)
+  |java-wrapper|
+  :Invoke Perl Application Method;
+  |perlapp|
+  :Process in Perl;
+endif
+
+|java-wrapper|
+  :Send JSON Response;
+
+|User|
+  :Receive 200 Response with JSON Payload;
+
+stop
+@enduml

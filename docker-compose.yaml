@@ -1,0 +1,41 @@
+services:
+  java-wrapper:
+    extends:
+      file: docker-compose.common.yaml
+      service: java-wrapper
+    environment:
+      ENABLE_REMOTE_DEBUGGING: "true"
+      ENABLE_CODE_COVERAGE: "true"
+    depends_on:
+      perlapp:
+        condition: service_started
+    extra_hosts:
+      - "e2e.host:host-gateway"  # adds an entry to /etc/hosts
+    ports:
+      - "5005:5005"
+      - "3360:3360"
+      - "8080:8080"
+      - "8099:8099"
+      - "9990:9990"
+
+  perlapp:
+    extends:
+      file: docker-compose.common.yaml
+      service: perlapp
+    volumes:
+      - ./perlapp/cover_db:/root/daemon/cover_db
+    depends_on:
+      db:
+        condition: service_healthy
+    extra_hosts:
+      - "e2e.host:host-gateway"  # adds an entry to /etc/hosts
+    ports:
+      - "13360:13360"
+      - "12345:12345"
+
+  db:
+    extends:
+      file: docker-compose.common.yaml
+      service: db
+    ports:
+      - "3308:3306"

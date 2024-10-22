@@ -1,0 +1,1 @@
+sqlacodegen --outfile db_models/database.py   mysql+pymysql://root:root@localhost:3308/shareddb

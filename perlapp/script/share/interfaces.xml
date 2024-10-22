@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<collection version="0.01" name="PerlApp">
+	<description>
+		Minimal Perl Application
+	</description>
+
+	<interface id="getTnbList">
+		<description>
+			Returns all TNB's known
+		</description>
+		<input>
+			<scalar name="number" type="string" optional="true" />
+		</input>
+		<output>
+			<array name="tnbs">
+				<struct>
+					<scalar name="tnb" type="string" />
+					<scalar name="name" type="string" />
+					<scalar name="isTnb" type="boolean" />
+				</struct>
+			</array>
+			<scalar name="faultCode" type="int" />
+			<scalar name="faultString" type="string" />
+		</output>
+	</interface>
+	<interface id="healthCheck">
+		<description>
+			Check if App is Healthy
+		</description>
+		<output>
+			<scalar name="faultCode" type="int" />
+			<scalar name="faultString" type="string" />
+		</output>
+	</interface>
+</collection>

@@ -1,0 +1,46 @@
+services:
+  java-wrapper:
+    restart: "no"
+    build:
+      context: .
+    platform: linux/amd64
+    ulimits:
+      nofile:
+        soft: 4096
+        hard: 4096
+    user: "40001"
+    environment:
+      ENV: "e2e"
+      WRAPPER_BIND_IP: "127.0.0.1"
+    healthcheck:
+      test: curl --fail localhost:8080/java-war/health
+      interval: 1s
+      timeout: 5s
+      retries: 30
+
+  perlapp:
+    build:
+      context: perlapp
+      dockerfile: e2e.Dockerfile
+    platform: linux/amd64
+    healthcheck:
+      test: curl --fail -d '<methodCall><methodName>healthCheck</methodName><params></params></methodCall>' http://localhost:13360/RPC2
+      interval: 1s
+      timeout: 5s
+      retries: 30
+
+  db:
+    build:
+      dockerfile: docker/docker-db.Dockerfile
+      context: .
+      args:
+        SQL_SCRIPT_DIR: ./docker/db
+    platform: linux/amd64
+    restart: "no"
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: shareddb
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 1s
+      retries: 60

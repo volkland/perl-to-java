@@ -1,0 +1,11 @@
+#IDE
+.idea
+.project
+perlapp.iml
+
+#
+5.1.61/
+mysql_sandbox/
+perlapp.log
+/cover_db
+*.info
